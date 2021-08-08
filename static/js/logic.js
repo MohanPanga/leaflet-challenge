@@ -40,6 +40,7 @@ d3.json(url).then(function (data) {
             labels = [];
 
         // loop through depth intervals and generate a label with a colored square for each interval
+        div.innerHTML = '<b>Depth Legend</b><br>';
         for (var i = 0; i < depths.length; i++) {
             div.innerHTML +=
                 '<i style="background:' + getColor(depths[i] + 1) + '"> &nbsp &nbsp </i> ' +
