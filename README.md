@@ -1,2 +1,2 @@
 # leaflet-challenge
-USGS data analysis
+USGS Earthquake Data Representation
