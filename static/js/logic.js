@@ -13,7 +13,7 @@ url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson
 d3.json(url).then(function (data) {
     console.log(data)
     console.log(data.features.length)
-    circles = []
+
     for (i = 0; i < data.features.length; i++) {
         feature = data.features[i]
         lon = feature.geometry.coordinates[0]
@@ -22,37 +22,40 @@ d3.json(url).then(function (data) {
         magnitude = feature.properties.mag
 
         L.circle([lat, lon], {
-            radius: magnitude * 10000,
-            fillColor: getColor(depth)
+            radius: magnitude * 20000,
+            fillColor: getColor(depth),
+            color: "black",
+            weight: 0.75,
+            fillOpacity: 0.75
         }).bindPopup(feature.properties.place + `${depth}`).addTo(myMap)
-        // console.log(lon,lat,depth)
-        // circle = L.cirle
-        // circles.push(feature)
+
     }
+    
     var legend = L.control({ position: 'bottomleft' });
+    
     legend.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+            depths = [-10, 10, 20, 50, 100, 200, 500],
             labels = [];
 
-        // loop through our density intervals and generate a label with a colored square for each interval
-        for (var i = 0; i < grades.length; i++) {
+        // loop through depth intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < depths.length; i++) {
             div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"> &nbsp </i> ' +
-                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+                '<i style="background:' + getColor(depths[i] + 1) + '"> &nbsp &nbsp </i> ' +
+                depths[i] + (depths[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
         }
 
         return div;
     };
     function getColor(d) {
-        return d > 1000 ? '#800026' :
-            d > 500 ? '#BD0026' :
-                d > 200 ? '#E31A1C' :
-                    d > 100 ? '#FC4E2A' :
-                        d > 50 ? '#FD8D3C' :
-                            d > 20 ? '#FEB24C' :
-                                d > -10 ? '#edf8b1':
+        return d > 500 ? '#800026' :
+            d > 200 ? '#BD0026' :
+                d > 100 ? '#E31A1C' :
+                    d > 50 ? '#FC4E2A' :
+                        d > 20 ? '#FD8D3C' :
+                            d > 10 ? '#FEB24C' :
+                                d > -10 ? '#a1d99b' :
                                     '#FFEDA0';
     }
     legend.addTo(myMap);
