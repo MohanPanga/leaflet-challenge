@@ -27,7 +27,7 @@ d3.json(url).then(function (data) {
             color: "black",
             weight: 0.75,
             fillOpacity: 0.75
-        }).bindPopup(feature.properties.place + `${depth}`).addTo(myMap)
+        }).bindPopup("<b>"+feature.properties.place+"</b><br>"+`magnitude: ${magnitude} `).addTo(myMap)
 
     }
     
